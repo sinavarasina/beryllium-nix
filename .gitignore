@@ -1,0 +1,6 @@
+result*
+img-script
+uboot
+*.raw
+*.simg
+wifi.env
