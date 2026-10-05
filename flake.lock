@@ -207,11 +207,11 @@
         "std": "std"
       },
       "locked": {
-        "lastModified": 1791091087,
-        "narHash": "sha256-CsHwIG5evr3hGbM3yumv68RNOC/0JWyBj7FF8x/vm18=",
+        "lastModified": 1791221837,
+        "narHash": "sha256-Hzr89pfK8VYvBpYq0EgFzBSghfNpxTD5pwq13Z2T0VA=",
         "owner": "sinavarasina",
         "repo": "steam-arm64-nix",
-        "rev": "f91fe76b51862bce32cfed7e336bb96bee2d33ed",
+        "rev": "f1d5d0c10b2164ed696a21d9b3ee252e7f4ba119",
         "type": "github"
       },
       "original": {
