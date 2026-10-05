@@ -29,18 +29,33 @@
   };
 
   outputs =
-    inputs@{ nixpkgs, ... }:
+    inputs@{ self, nixpkgs, ... }:
     let
-      settings = import ./settings.nix;
+      forAllSystems =
+        f:
+        nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
+          system: f nixpkgs.legacyPackages.${system}
+        );
     in
     {
       nixosConfigurations.beryllium = nixpkgs.lib.nixosSystem {
-        specialArgs = { inherit inputs settings; };
-        modules = [ ./hosts/beryllium ];
+        specialArgs = { inherit inputs; };
+        modules = [
+          ./settings.nix
+          ./hosts/beryllium
+        ];
       };
 
-      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
-        system: nixpkgs.legacyPackages.${system}.nixfmt-tree
-      );
+      formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
+
+      # `nix flake check` also evaluates nixosConfigurations.beryllium, which is
+      # what catches a bad option value (e.g. an unknown displayPanel) without
+      # an aarch64 builder.
+      checks = forAllSystems (pkgs: {
+        formatting = pkgs.runCommand "check-formatting" { nativeBuildInputs = [ pkgs.nixfmt ]; } ''
+          find ${self} -name '*.nix' -exec nixfmt --check {} +
+          touch $out
+        '';
+      });
     };
 }

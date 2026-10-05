@@ -1,6 +1,6 @@
-{ settings, ... }:
+{ config, ... }:
 {
-  users.users.${settings.user} = {
+  users.users.${config.beryllium.user} = {
     isNormalUser = true;
     extraGroups = [
       "wheel"

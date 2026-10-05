@@ -7,6 +7,7 @@ Boots straight into Steam's gamepad UI (Valve's native aarch64 client inside gam
 ## Layout
 
     settings.nix              hostname, user, display panel (edit this first)
+    modules/options.nix       declares those settings as typed options
     flake.nix                 inputs and the `beryllium` configuration
     hosts/beryllium/          host entry point and disk layout (btrfs, no LUKS)
     modules/base/             nix settings, user, sudo
@@ -14,6 +15,12 @@ Boots straight into Steam's gamepad UI (Valve's native aarch64 client inside gam
     modules/network/          SSH (password) and WiFi profiles
     modules/gaming/           Steam, gamescope, gamemode, session, MangoHud (+ its config)
     modules/tuning/           zram and sysctl, earlyoom, limits, ntsync
+
+## Checks
+
+`nix flake check --no-build` verifies formatting and evaluates the whole system,
+so a bad setting (say `displayPanel = "foo"`) fails here and not on the phone.
+CI runs it on every push; the slow qemu build is a manual workflow.
 
 ## Forks this flake depends on
 

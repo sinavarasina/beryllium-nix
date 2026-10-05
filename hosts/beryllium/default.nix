@@ -1,9 +1,10 @@
-{ inputs, settings, ... }:
+{ config, inputs, ... }:
 {
   imports = [
     inputs.vanilla-mobile-nixos.nixosModules.vanilla-mobile
     inputs.disko.nixosModules.disko
     ./disko.nix
+    ../../modules/options.nix
     ../../modules/base
     ../../modules/hardware
     ../../modules/network
@@ -11,13 +12,13 @@
     ../../modules/tuning
   ];
 
-  networking.hostName = settings.hostName;
+  networking.hostName = config.beryllium.hostName;
 
   vanilla-mobile = {
     cache.enable = true;
     device.xiaomi-beryllium = {
       enable = true;
-      inherit (settings) displayPanel;
+      inherit (config.beryllium) displayPanel;
     };
   };
 

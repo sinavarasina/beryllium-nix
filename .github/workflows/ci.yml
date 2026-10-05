@@ -1,0 +1,40 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  # Cheap and always on: formatting plus a full evaluation of the aarch64 system
+  # on an x86_64 runner. Nothing is built, so no emulation is needed.
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Flake check (formatting, evaluation)
+        run: nix flake check --no-build
+      - name: Evaluate the system closure
+        run: nix eval --raw .#nixosConfigurations.beryllium.config.system.build.toplevel.drvPath
+
+  # Slow: builds the whole system under qemu. Run it by hand from the Actions
+  # tab before a release.
+  build:
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: docker/setup-qemu-action@v3
+        with:
+          platforms: arm64
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+          extra_nix_config: |
+            extra-platforms = aarch64-linux
+      - name: Build toplevel
+        run: nix build .#nixosConfigurations.beryllium.config.system.build.toplevel --no-link

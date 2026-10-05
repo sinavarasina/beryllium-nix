@@ -1,8 +1,8 @@
 # Boots straight into Steam's gamepad UI inside gamescope.
 {
+  config,
   lib,
   pkgs,
-  settings,
   ...
 }:
 let
@@ -31,7 +31,7 @@ let
 
   autologin = {
     command = lib.getExe session;
-    user = settings.user;
+    user = config.beryllium.user;
   };
 in
 {
