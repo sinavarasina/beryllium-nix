@@ -9,10 +9,11 @@ Boots straight into Steam's gamepad UI (Valve's native aarch64 client inside gam
     settings.nix              hostname, user, display panel (edit this first)
     flake.nix                 inputs and the `beryllium` configuration
     hosts/beryllium/          host entry point and disk layout (btrfs, no LUKS)
-    modules/base.nix          nix settings, user, sudo
-    modules/network.nix       SSH (password) and WiFi profiles
-    modules/gaming.nix        Steam session, gamescope, gamemode, MangoHud, Bluetooth
-    modules/tuning.nix        zram, earlyoom, ntsync
+    modules/base/             nix settings, user, sudo
+    modules/hardware/         audio (PipeWire), Bluetooth, graphics
+    modules/network/          SSH (password) and WiFi profiles
+    modules/gaming/           Steam, gamescope, gamemode, session, MangoHud (+ its config)
+    modules/tuning/           zram and sysctl, earlyoom, limits, ntsync
 
 ## Forks this flake depends on
 

@@ -4,10 +4,11 @@
     inputs.vanilla-mobile-nixos.nixosModules.vanilla-mobile
     inputs.disko.nixosModules.disko
     ./disko.nix
-    ../../modules/base.nix
-    ../../modules/network.nix
-    ../../modules/gaming.nix
-    ../../modules/tuning.nix
+    ../../modules/base
+    ../../modules/hardware
+    ../../modules/network
+    ../../modules/gaming
+    ../../modules/tuning
   ];
 
   networking.hostName = settings.hostName;

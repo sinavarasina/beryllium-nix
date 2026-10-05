@@ -20,6 +20,12 @@
       url = "github:sinavarasina/steam-arm64-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # MangoHud master, for the msm GPU metrics fixes no release has shipped yet.
+    mangohud-src = {
+      url = "github:flightlessmango/MangoHud";
+      flake = false;
+    };
   };
 
   outputs =
@@ -33,6 +39,8 @@
         modules = [ ./hosts/beryllium ];
       };
 
-      formatter.x86_64-linux = nixpkgs.legacyPackages.x86_64-linux.nixfmt-tree;
+      formatter = nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
+        system: nixpkgs.legacyPackages.${system}.nixfmt-tree
+      );
     };
 }
