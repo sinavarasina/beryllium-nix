@@ -116,11 +116,11 @@
     "mangohud-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1791226113,
-        "narHash": "sha256-3bJF7JnD0wgUT6IazxMzcsuGh5JJSFEbglVBpn603/g=",
+        "lastModified": 1791235245,
+        "narHash": "sha256-Ml4UP+Ju21h6v9vVTbyfMpJnQQQZnskeG5QVuw3h7kw=",
         "owner": "flightlessmango",
         "repo": "MangoHud",
-        "rev": "9108a9333c369aa85f1af54393ce68fe4b1ec6da",
+        "rev": "19347734a4eca5ae141d5238f1f8c4dcf5bd7927",
         "type": "github"
       },
       "original": {
