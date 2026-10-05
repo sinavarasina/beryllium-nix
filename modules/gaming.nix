@@ -6,15 +6,14 @@
   ...
 }:
 let
-  launcher = "${pkgs.steam-arm64}/bin/steam-arm64";
-
-  # gamescope kiosk running Valve's native aarch64 client in gamepad UI.
+  steam = pkgs.steam-arm64.override { useMuvm = false; };
   session = pkgs.writeShellScript "steam-session" ''
     set -eu
     export PATH=${
       lib.makeBinPath [
         pkgs.coreutils
         pkgs.gnugrep
+        pkgs.gnused
         pkgs.gamescope
       ]
     }:$PATH
@@ -22,27 +21,19 @@ let
 
     export STEAM_ARM64_ROOT="$HOME/.local/share/Steam"
 
-    # First run only: the stock launcher unpacks the client, then fails in muvm
-    # (this SoC has no /dev/kvm). The unpacking is all we need from it.
-    if [ ! -x "$STEAM_ARM64_ROOT/steamrtarm64/steam" ]; then
-      ${launcher} || true
-    fi
-
-    # 4K pages: skip the microVM and run the FHS wrapper directly.
-    fhs=$(grep -o '/nix/store/[^"[:space:]]*-steam-arm64-fhs/bin/steam-arm64-fhs' ${launcher} | head -1)
-    if [ ! -x "$fhs" ]; then
-      echo "steam-arm64-fhs not found in ${launcher}"
-      exec sleep infinity
-    fi
-
-    exec gamescope -e --prefer-output DSI-1 --force-orientation left -- "$fhs" -gamepadui
+    exec gamescope -e --prefer-output DSI-1 --force-orientation left -- \
+      ${steam}/bin/steam-arm64 -gamepadui
   '';
 in
 {
-  nixpkgs.overlays = [ inputs.steam-arm64-nix.overlays.default ];
-  nixpkgs.config.allowUnfree = true; # Valve's client
+  imports = [ inputs.steam-arm64-nix.nixosModules.fex-host ];
 
-  programs.nix-ld.enable = true; # the client's binaries expect /lib/ld-linux-aarch64.so.1
+  nixpkgs.overlays = [ inputs.steam-arm64-nix.overlays.default ];
+  nixpkgs.config.allowUnfree = true;
+
+  programs.steam-arm64.fexHost.enable = true;
+
+  programs.nix-ld.enable = true;
   hardware.graphics.enable = true;
   programs.gamescope.enable = true;
   programs.gamemode.enable = true;
@@ -54,7 +45,6 @@ in
     pulse.enable = true;
   };
 
-  # Controllers pair once (see README) and then reconnect on their own.
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = true;
