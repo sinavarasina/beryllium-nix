@@ -113,6 +113,22 @@
         "type": "github"
       }
     },
+    "mangohud-src": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1791226113,
+        "narHash": "sha256-3bJF7JnD0wgUT6IazxMzcsuGh5JJSFEbglVBpn603/g=",
+        "owner": "flightlessmango",
+        "repo": "MangoHud",
+        "rev": "9108a9333c369aa85f1af54393ce68fe4b1ec6da",
+        "type": "github"
+      },
+      "original": {
+        "owner": "flightlessmango",
+        "repo": "MangoHud",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1788404924,
@@ -162,6 +178,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
+        "mangohud-src": "mangohud-src",
         "nixpkgs": [
           "vanilla-mobile-nixos",
           "nixpkgs"
@@ -207,11 +224,11 @@
         "std": "std"
       },
       "locked": {
-        "lastModified": 1791221837,
-        "narHash": "sha256-Hzr89pfK8VYvBpYq0EgFzBSghfNpxTD5pwq13Z2T0VA=",
+        "lastModified": 1791230119,
+        "narHash": "sha256-g/J209lo4WXM71es6Q0bu6iu9E//DThAs/2s4MCL3fU=",
         "owner": "sinavarasina",
         "repo": "steam-arm64-nix",
-        "rev": "f1d5d0c10b2164ed696a21d9b3ee252e7f4ba119",
+        "rev": "b66492bed54a9576050fda12b38044baa1831a8d",
         "type": "github"
       },
       "original": {
