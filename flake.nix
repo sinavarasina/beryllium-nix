@@ -21,10 +21,9 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # MangoHud master, for the msm GPU metrics fixes no release has shipped yet.
-    mangohud-src = {
-      url = "github:flightlessmango/MangoHud";
-      flake = false;
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
   };
 

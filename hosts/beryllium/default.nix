@@ -3,6 +3,7 @@
   imports = [
     inputs.vanilla-mobile-nixos.nixosModules.vanilla-mobile
     inputs.disko.nixosModules.disko
+    inputs.home-manager.nixosModules.home-manager
     ./disko.nix
     ../../modules/options.nix
     ../../modules/base

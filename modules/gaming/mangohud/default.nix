@@ -1,12 +1,7 @@
+{ config, pkgs, ... }:
 {
-  pkgs,
-  ...
-}:
-{
-  environment.systemPackages = [
-    pkgs.mangohud
-  ];
+  environment.systemPackages = [ pkgs.mangohud ];
 
-  environment.etc."mangohud/MangoHud.conf".source =
+  home-manager.users.${config.beryllium.user}.xdg.configFile."MangoHud/MangoHud.conf".source =
     ./MangoHud.conf;
 }
