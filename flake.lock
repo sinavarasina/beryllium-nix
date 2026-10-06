@@ -113,19 +113,23 @@
         "type": "github"
       }
     },
-    "mangohud-src": {
-      "flake": false,
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
       "locked": {
-        "lastModified": 1791235245,
-        "narHash": "sha256-Ml4UP+Ju21h6v9vVTbyfMpJnQQQZnskeG5QVuw3h7kw=",
-        "owner": "flightlessmango",
-        "repo": "MangoHud",
-        "rev": "19347734a4eca5ae141d5238f1f8c4dcf5bd7927",
+        "lastModified": 1791306979,
+        "narHash": "sha256-KuLePuhwJM9NLt/gTLHzXaOoSZKGoB3m7NfXjiQ98HY=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "fae6e9e42c3b762ab47635cddcfaf6f52374a61b",
         "type": "github"
       },
       "original": {
-        "owner": "flightlessmango",
-        "repo": "MangoHud",
+        "owner": "nix-community",
+        "repo": "home-manager",
         "type": "github"
       }
     },
@@ -178,7 +182,7 @@
     "root": {
       "inputs": {
         "disko": "disko",
-        "mangohud-src": "mangohud-src",
+        "home-manager": "home-manager",
         "nixpkgs": [
           "vanilla-mobile-nixos",
           "nixpkgs"
@@ -258,11 +262,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1789575970,
-        "narHash": "sha256-woV2pODEhh9jALA3kBiCS7oz5ispPB3o0LAHiPVaZnc=",
+        "lastModified": 1791206678,
+        "narHash": "sha256-AEo2cFCVr85mWR7V17HC2R5WKueneds5Cjk43iDaIuA=",
         "owner": "vanilla-mobile-nixos",
         "repo": "vanilla-mobile-nixos",
-        "rev": "f11deb4f768234131eeee3db5dfb7ce4b7728b58",
+        "rev": "def1eb0059eb1f714438a3572ddcd53464874584",
         "type": "github"
       },
       "original": {
