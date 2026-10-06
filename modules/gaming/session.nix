@@ -19,6 +19,7 @@ let
       exec > "$HOME/steam-session.log" 2>&1
 
       export STEAM_ARM64_ROOT="$HOME/.local/share/Steam"
+      export MANGOHUD_CONFIGFILE="/etc/mangohud/MangoHud.conf"
 
       exec gamescope -e \
         --prefer-output DSI-1 \

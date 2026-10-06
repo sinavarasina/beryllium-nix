@@ -80,4 +80,3 @@ Pair once over SSH; it reconnects by itself afterwards.
 ## Troubleshooting
 
 - Session log: `~/steam-session.log`.
-- `/dev/ntsync` or zram missing: the device kernel lacks the option, nothing to fix here.
