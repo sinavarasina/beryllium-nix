@@ -6,5 +6,6 @@
     hostName = "beryllium";
     user = "sina";
     displayPanel = "tianma"; # "tianma" or "ebbg"
+    steam.deckMode = true; # Wi-Fi and Bluetooth pages in the Steam UI
   };
 }

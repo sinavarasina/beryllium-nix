@@ -15,6 +15,18 @@
       description = "Login user. Also the account greetd logs into automatically.";
     };
 
+    steam.deckMode = lib.mkOption {
+      type = lib.types.bool;
+      default = false;
+      description = ''
+        Start Steam in Deck mode (-steamdeck -steamos3 -steampal on Valve's
+        steamdeck_publicbeta aarch64 channel. This is what puts the Wi-Fi,
+        Bluetooth and Quick Access pages in the Steam UI. Off gives plain
+        Big Picture. The first start after turning it on downloads the 
+        Deck-branch client and restarts once.
+      '';
+    };
+
     displayPanel = lib.mkOption {
       type = lib.types.enum [
         "tianma"

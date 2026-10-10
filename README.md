@@ -10,7 +10,7 @@ Boots straight into Steam's gamepad UI (Valve's native aarch64 client inside gam
     modules/options.nix       declares those settings as typed options
     flake.nix                 inputs and the `beryllium` configuration
     hosts/beryllium/          host entry point and disk layout (btrfs, no LUKS)
-    modules/base/             nix settings, user, sudo
+    modules/base/             nix settings, user, sudo, home-manager, polkit rules
     modules/hardware/         audio (PipeWire), Bluetooth, graphics
     modules/network/          SSH (password) and WiFi profiles
     modules/gaming/           Steam, gamescope, gamemode, session, MangoHud (+ its config)
