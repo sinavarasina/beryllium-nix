@@ -27,6 +27,40 @@
       '';
     };
 
+    image = {
+      enable = lib.mkEnableOption "image mode, for building the flashable images on a PC (off for nixos-rebuild against the phone)";
+
+      buildSystem = lib.mkOption {
+        type = lib.types.enum [
+          "x86_64-linux"
+          "aarch64-linux"
+        ];
+        default = "x86_64-linux";
+        description = ''
+          System of the machine that builds the images (image mode only). On
+          x86_64 the image VM runs natively and aarch64 programs inside it go
+          through binfmt, which is far faster than emulating the whole VM.
+        '';
+      };
+
+      bootSize = lib.mkOption {
+        type = lib.types.strMatching "[0-9]+[KMGT]";
+        default = "2G";
+        description = "Size of nixos-boot.raw. vfat cannot grow later, so this is final.";
+      };
+
+      rootSize = lib.mkOption {
+        type = lib.types.strMatching "[0-9]+[KMGT]";
+        default = "4G";
+        description = ''
+          Size of nixos-root.raw. The filesystem grows to fill the partition on
+          first boot. Raise it if the image build runs out of space.
+        '';
+      };
+    };
+
+    usbDeveloper = lib.mkEnableOption "USB developer mode: the USB cable stays a network link to the phone (172.16.42.1) after boot, so SSH works without Wi-Fi";
+
     displayPanel = lib.mkOption {
       type = lib.types.enum [
         "tianma"

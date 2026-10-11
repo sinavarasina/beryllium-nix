@@ -5,7 +5,10 @@
 #
 # You should understand BTRFS before using it. Further configuration such as scrubbing or
 # disabling copy-on-write in specific directories may be warranted.
-{ config, ... }:
+{ config, lib, ... }:
+let
+  image = config.beryllium.image;
+in
 {
   disko.devices.disk = {
     boot =
@@ -18,7 +21,7 @@
         imageName = label;
         # vfat can't be auto-expanded by NixOS, so the initial image size must be
         # the final desired size.
-        imageSize = "2G";
+        imageSize = image.bootSize;
         content = {
           type = "filesystem";
           format = "vfat";
@@ -47,7 +50,7 @@
         imageName = label;
         # The size of the image that will be flashed. It will expanded to the full
         # available space once booted into.
-        imageSize = "4G";
+        imageSize = image.rootSize;
         content = {
           type = "btrfs";
           extraArgs = [
@@ -85,4 +88,9 @@
   };
 
   vanilla-mobile.disko.enable = true;
+
+  # Image mode: build the images on a PC of another architecture (disko VM native,
+  # aarch64 programs through binfmt). Off, the images are built the plain way and
+  # the phone itself never sees a different build system.
+  vanilla-mobile.installer.buildSystem = lib.mkIf image.enable image.buildSystem;
 }

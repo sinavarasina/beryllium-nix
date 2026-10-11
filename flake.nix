@@ -35,6 +35,7 @@
         nixpkgs.lib.genAttrs [ "x86_64-linux" "aarch64-linux" ] (
           system: f nixpkgs.legacyPackages.${system}
         );
+      beryllium = self.nixosConfigurations.beryllium.config;
     in
     {
       nixosConfigurations.beryllium = nixpkgs.lib.nixosSystem {
@@ -44,6 +45,13 @@
           ./hosts/beryllium
         ];
       };
+
+      # Short names for the two things the flash needs, so the commands in the
+      # README stay short. Set `image.enable = true` in settings.nix first.
+      packages = forAllSystems (_: {
+        images-script = beryllium.system.build.diskoImagesScript;
+        uboot = beryllium.vanilla-mobile.deviceInfo.uboot;
+      });
 
       formatter = forAllSystems (pkgs: pkgs.nixfmt-tree);
 
