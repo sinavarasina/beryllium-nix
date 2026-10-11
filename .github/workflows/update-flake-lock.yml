@@ -1,0 +1,41 @@
+name: Update flake.lock
+
+on:
+  schedule:
+    # Sundays 20:00 UTC (Monday 03:00 in Jakarta).
+    - cron: "0 20 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: cachix/install-nix-action@v31
+        with:
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Update every input
+        run: nix flake update
+      # A pull request opened with GITHUB_TOKEN does not start the CI workflow,
+      # so the same checks run here: the PR is only opened for a lock that
+      # evaluates. This does not build anything; build by hand (CI, "build")
+      # before merging an update that moves vanilla-mobile-nixos or nixpkgs.
+      - name: Flake check (formatting, evaluation)
+        run: nix flake check --no-build
+      - name: Evaluate the system closure
+        run: nix eval --raw .#nixosConfigurations.beryllium.config.system.build.toplevel.drvPath
+      - uses: peter-evans/create-pull-request@v7
+        with:
+          branch: bot/update-flake-lock
+          delete-branch: true
+          commit-message: "chore: update flake.lock"
+          title: "chore: update flake.lock"
+          body: |
+            Automated `nix flake update`. Formatting and evaluation passed in this
+            run. Nothing was built: if this moves `vanilla-mobile-nixos` or
+            `nixpkgs`, run the manual "build" job in CI before merging.
+          add-paths: flake.lock
