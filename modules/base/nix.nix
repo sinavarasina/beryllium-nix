@@ -1,4 +1,7 @@
 {
+  # Needed for xiaomi-beryllium-firmware and Valve's Steam client.
+  nixpkgs.config.allowUnfree = true;
+
   nix.settings = {
     experimental-features = [
       "nix-command"

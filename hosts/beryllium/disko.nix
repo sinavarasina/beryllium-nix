@@ -5,9 +5,17 @@
 #
 # You should understand BTRFS before using it. Further configuration such as scrubbing or
 # disabling copy-on-write in specific directories may be warranted.
-{ config, lib, ... }:
+{ config, ... }:
 let
-  image = config.beryllium.image;
+  inherit (config.beryllium) image;
+  sectorSize = toString config.vanilla-mobile.deviceInfo.imageSectorSize;
+  subvolume = mountpoint: {
+    inherit mountpoint;
+    mountOptions = [
+      "compress=zstd"
+      "noatime"
+    ];
+  };
 in
 {
   disko.devices.disk = {
@@ -36,7 +44,7 @@ in
             "-n"
             label
             "-S"
-            (toString config.vanilla-mobile.deviceInfo.imageSectorSize)
+            sectorSize
           ];
         };
       };
@@ -48,7 +56,7 @@ in
         type = "disk";
         device = "/dev/disk/by-label/${label}";
         imageName = label;
-        # The size of the image that will be flashed. It will expanded to the full
+        # The size of the image that will be flashed. It will be expanded to the full
         # available space once booted into.
         imageSize = image.rootSize;
         content = {
@@ -57,40 +65,17 @@ in
             "--label"
             label
             "--sectorsize"
-            (toString config.vanilla-mobile.deviceInfo.imageSectorSize)
+            sectorSize
           ];
 
           subvolumes = {
-            "@root" = {
-              mountpoint = "/";
-              mountOptions = [
-                "compress=zstd"
-                "noatime"
-              ];
-            };
-            "@home" = {
-              mountpoint = "/home";
-              mountOptions = [
-                "compress=zstd"
-                "noatime"
-              ];
-            };
-            "@nix" = {
-              mountpoint = "/nix";
-              mountOptions = [
-                "compress=zstd"
-                "noatime"
-              ];
-            };
+            "@root" = subvolume "/";
+            "@home" = subvolume "/home";
+            "@nix" = subvolume "/nix";
           };
         };
       };
   };
 
   vanilla-mobile.disko.enable = true;
-
-  # Image mode: build the images on a PC of another architecture (disko VM native,
-  # aarch64 programs through binfmt). Off, the images are built the plain way and
-  # the phone itself never sees a different build system.
-  vanilla-mobile.installer.buildSystem = lib.mkIf image.enable image.buildSystem;
 }

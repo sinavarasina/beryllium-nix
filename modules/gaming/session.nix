@@ -25,12 +25,7 @@ let
 
   session = pkgs.writeShellApplication {
     name = "steam-session";
-    runtimeInputs = with pkgs; [
-      coreutils
-      gnugrep
-      gnused
-      gamescope
-    ];
+    runtimeInputs = [ config.programs.gamescope.package ];
     text = ''
       exec > "$HOME/steam-session.log" 2>&1
 

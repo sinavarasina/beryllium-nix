@@ -4,7 +4,6 @@
   imports = [ inputs.steam-arm64-nix.nixosModules.fex-host ];
 
   nixpkgs.overlays = [ inputs.steam-arm64-nix.overlays.default ];
-  nixpkgs.config.allowUnfree = true;
 
   programs.steam-arm64.fexHost.enable = true;
 

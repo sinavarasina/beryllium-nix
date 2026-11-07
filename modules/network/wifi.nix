@@ -1,4 +1,3 @@
-{ ... }:
 let
   # Credentials never live in the repo: NetworkManager substitutes $VARS from an
   # env file kept on the device (see README, "Secrets").

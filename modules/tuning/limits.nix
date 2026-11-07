@@ -1,4 +1,3 @@
-{ lib, ... }:
 {
   security.pam.loginLimits = [
     {
@@ -15,6 +14,6 @@
     }
   ];
 
-  systemd.settings.Manager.DefaultLimitNOFILE = lib.mkForce "1048576";
-  systemd.user.settings.Manager.DefaultLimitNOFILE = lib.mkForce "1048576";
+  systemd.settings.Manager.DefaultLimitNOFILE = "1048576";
+  systemd.user.settings.Manager.DefaultLimitNOFILE = "1048576";
 }

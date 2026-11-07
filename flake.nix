@@ -15,9 +15,9 @@
     };
 
     # Valve's native aarch64 Steam client. The fork removes the Vulkan ICD
-    # filter in guest-run.sh so the real Adreno GPU (Turnip) is detected.
+    # filter in guest-run.sh so Turnip is detected, and adds Deck-mode helpers.
     steam-arm64-nix = {
-      url = "github:sinavarasina/steam-arm64-nix";
+      url = "github:sinavarasina/steam-arm64-nix/deck-mode";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -47,9 +47,15 @@
       };
 
       # Short names for the two things the flash needs, so the commands in the
-      # README stay short. Set `image.enable = true` in settings.nix first.
-      packages = forAllSystems (_: {
-        images-script = beryllium.system.build.diskoImagesScript;
+      # README stay short. `images-script` sets `buildSystem` to the host
+      # running `nix build`, so on an x86_64 PC the disko VM runs natively.
+      packages = forAllSystems (pkgs: {
+        images-script =
+          (self.nixosConfigurations.beryllium.extendModules {
+            modules = [
+              { vanilla-mobile.installer.buildSystem = pkgs.stdenv.hostPlatform.system; }
+            ];
+          }).config.system.build.diskoImagesScript;
         uboot = beryllium.vanilla-mobile.deviceInfo.uboot;
       });
 

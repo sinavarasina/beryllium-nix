@@ -228,15 +228,16 @@
         "std": "std"
       },
       "locked": {
-        "lastModified": 1791645443,
-        "narHash": "sha256-6dDxEmRDSjCYqIMZw3+XBhm/gvzzP7gbboADZ+yNh3o=",
+        "lastModified": 1794014759,
+        "narHash": "sha256-udF/wUXD2SojY3szCKcCplNHETnTLNjNiDZeD0ZADDg=",
         "owner": "sinavarasina",
         "repo": "steam-arm64-nix",
-        "rev": "b67ee3da18f7196031037a9d7a50ebf4580bf9f9",
+        "rev": "d3d92b5c2d29d8027d58f268d06bc9ae33cdaba5",
         "type": "github"
       },
       "original": {
         "owner": "sinavarasina",
+        "ref": "deck-mode",
         "repo": "steam-arm64-nix",
         "type": "github"
       }

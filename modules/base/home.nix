@@ -1,8 +1,10 @@
-{ config, ... }:
+{ config, inputs, ... }:
 {
+  imports = [ inputs.home-manager.nixosModules.home-manager ];
+
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
-    users.${config.beryllium.user}.home.stateVersion = "26.05";
+    users.${config.beryllium.user}.home.stateVersion = config.system.stateVersion;
   };
 }

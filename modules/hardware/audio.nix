@@ -3,6 +3,8 @@
     enable = true;
     alsa.enable = true;
     pulse.enable = true;
+    # Give wired headphones higher priority than the internal speaker so
+    # WirePlumber switches to them automatically when plugged in.
     wireplumber.extraConfig."52-headphones-priority" = {
       "monitor.alsa.rules" = [
         {

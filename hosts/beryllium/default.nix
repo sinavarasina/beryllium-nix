@@ -3,7 +3,6 @@
   imports = [
     inputs.vanilla-mobile-nixos.nixosModules.vanilla-mobile
     inputs.disko.nixosModules.disko
-    inputs.home-manager.nixosModules.home-manager
     ./disko.nix
     ../../modules/options.nix
     ../../modules/base
@@ -22,8 +21,6 @@
       inherit (config.beryllium) displayPanel;
     };
   };
-
-  nixpkgs.config.allowUnfreePackages = [ "xiaomi-beryllium-firmware" ];
 
   system.stateVersion = "26.05";
 }

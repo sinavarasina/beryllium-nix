@@ -6,13 +6,13 @@ Boots straight into Steam's gamepad UI (Valve's native aarch64 client inside gam
 
 ## Layout
 
-    settings.nix              hostname, user, display panel, image mode (edit this first)
+    settings.nix              hostname, user, display panel, USB & Deck mode, image sizes (edit this first)
     modules/options.nix       declares those settings as typed options
     flake.nix                 inputs and the `beryllium` configuration
     hosts/beryllium/          host entry point and disk layout (btrfs, no LUKS)
     modules/base/             nix settings, user, sudo, home-manager, polkit rules
     modules/hardware/         audio (PipeWire), Bluetooth, graphics
-    modules/network/          SSH (password) and WiFi profiles
+    modules/network/          SSH (password), USB gadget mode, and WiFi profiles
     modules/gaming/           Steam, gamescope, gamemode, session, MangoHud (+ its config)
     modules/tuning/           zram and sysctl, earlyoom, limits, ntsync
 
@@ -24,7 +24,8 @@ CI runs it on every push; the slow qemu build is a manual workflow.
 
 ## Forks this flake depends on
 
-- `sinavarasina/steam-arm64-nix`: `guest-run.sh` no longer filters out the Turnip Vulkan ICD.
+- `sinavarasina/steam-arm64-nix` (`deck-mode`): `guest-run.sh` no longer filters out the Turnip Vulkan ICD, and `steamos-stubs.nix` provides Deck-mode SteamOS helper scripts.
+- `JuneStepp/disko` (`mobile`): disko image builder adjustments for mobile devices ([disko#1008](https://github.com/nix-community/disko/pull/1008)).
 
 ## Build and flash
 
@@ -32,11 +33,11 @@ Needs Nix with `extra-platforms = aarch64-linux` and qemu binfmt on the PC, and
 the Cachix substituter (`vanilla-mobile-nixos.cachix.org`) trusted, or the
 kernel is built from source.
 
-1. In `settings.nix` set `image.enable = true` (and `image.buildSystem` to the
-   PC's system if it is not x86_64). Image mode makes the image VM run natively
-   on the PC instead of emulating a whole aarch64 machine. Sizes are
+1. Review `settings.nix` (`displayPanel`, `user`, etc.). Image sizes are
    `image.bootSize` (vfat, cannot grow later) and `image.rootSize` (grows on
-   first boot); raise `rootSize` if the build runs out of space.
+   first boot); raise `rootSize` if the build runs out of space. The
+   `.#images-script` package automatically runs the disko VM natively on the
+   build PC (`x86_64-linux` or `aarch64-linux`).
 2. Build and generate the images:
 
        git add -A          # flakes only see tracked files
@@ -51,14 +52,12 @@ kernel is built from source.
        fastboot erase userdata flash userdata nixos-root.raw
        fastboot reboot
 
-4. Set `image.enable = false` again. It is only for the PC build; updates to a
-   running phone go through "Deploy" below.
-
 ## First boot
 
-Connect USB, then `ssh <user>@172.16.42.1` (password `changeme`) and run `passwd`.
-This needs `usbDeveloper = true` in `settings.nix` (the default here); without it
-the phone drops the USB network once Steam is up and only Wi-Fi SSH remains.
+Set `usbDeveloper = true` in `settings.nix` if you want to keep the USB network
+up after boot (`ssh <user>@172.16.42.1`, initial password `changeme`, then run
+`passwd`). When `usbDeveloper = false`, the phone switches USB to charging-only
+once the Steam session starts and SSH is over Wi-Fi only.
 
 ## Secrets
 
