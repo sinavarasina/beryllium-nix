@@ -9,6 +9,7 @@
       "video"
       "render"
       "input"
+      "uinput"
       "audio"
     ];
     # Only used when the account is first created. Run `passwd` after the first login.
