@@ -41,8 +41,8 @@ kernel is built from source.
 2. Build and generate the images:
 
        git add -A          # flakes only see tracked files
-       nix build .#images-script -o img-script
-       nix build .#uboot -o uboot
+       nix build '.#images-script' -o img-script
+       nix build '.#uboot' -o uboot
        ./img-script        # writes nixos-boot.raw and nixos-root.raw
 
 3. With the phone in fastboot mode (this erases the phone's userdata):
@@ -72,7 +72,7 @@ WiFi credentials stay out of git. On the phone:
 
     git add -A
     nix fmt
-    nix run nixpkgs#nixos-rebuild -- test --flake .#beryllium --target-host <user>@<ip> --sudo
+    nix run 'nixpkgs#nixos-rebuild' -- test --flake '.#beryllium' --target-host <user>@<ip> --sudo
     # happy? repeat with `switch` (or `boot`); older nixos-rebuild: --use-remote-sudo
 
 `ssh-copy-id <user>@<ip>` once to avoid repeated password prompts.

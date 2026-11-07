@@ -10,10 +10,10 @@
       // do all of it without a prompt (Jovian-NixOS does the same).
       polkit.addRule(function(action, subject) {
         if ((action.id.indexOf("org.freedesktop.NetworkManager.") == 0 ||
-             action.id == "org.freedesktop.timedate1.set-timezone" ||
+             action.id.indexOf("org.freedesktop.timedate1.") == 0 ||
              action.id == "org.freedesktop.hostname1.set-hostname" ||
              action.id == "org.freedesktop.hostname1.set-static-hostname") &&
-            subject.local && subject.active) {
+            (subject.isInGroup("wheel") || (subject.local && subject.active))) {
           return polkit.Result.YES;
         }
       });

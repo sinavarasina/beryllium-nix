@@ -5,6 +5,7 @@
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+    backupFileExtension = "backup";
     users.${config.beryllium.user}.home.stateVersion = config.system.stateVersion;
   };
 }
